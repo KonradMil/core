@@ -62,7 +62,7 @@ trait CanDiscuss
      */
     public function getForumVisibleNameAttribute(): string
     {
-        $name = null !== $this->username ? $this->username : Str::words($this->name, 1, '');
+        $name = $this->name . ' ' . $this->lastname;
 
         return $name;
     }
@@ -74,13 +74,13 @@ trait CanDiscuss
      */
     public function getForumAvatarAttribute(): string
     {
-        if ($url = $this->customForumAvatarUrl()) {
-            return $url;
+        if ($this->avatar != NULL) {
+            return $this->avatar;
         }
 
-        $port = $this->id % 2 === 0 ? 'men' : 'women';
+//        $port = $this->id % 2 === 0 ? 'men' : 'women';
 
-        return 'https://randomuser.me/api/portraits/' . $port . '/' . $this->id . '.jpg';
+        return '';
     }
 
     protected function customForumAvatarUrl(): string
