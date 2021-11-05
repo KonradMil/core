@@ -22,7 +22,13 @@ class MenuViewComposer
      */
     public function compose(View $view)
     {
-        $view->with('categories', Category::with('children')->orderBy('order')->get());
+
+        $parentCategories = Category::where('parent_id', '=', NULL)->get();
+        foreach ($parentCategories as $pc) {
+            $children = Category::where('parent_id', '=', $pc->id)->get();
+            $pc->children_categories = $children;
+        }
+        $view->with('categories', $parentCategories);
 
         $view->with('menu', $this->menuProvider->get());
     }
