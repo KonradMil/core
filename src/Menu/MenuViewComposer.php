@@ -22,7 +22,7 @@ class MenuViewComposer
      */
     public function compose(View $view)
     {
-        $view->with('categories', Category::orderBy('order')->get());
+        $view->with('categories', Category::with('children')->orderBy('order')->get());
 
         $view->with('menu', $this->menuProvider->get());
     }

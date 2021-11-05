@@ -19,8 +19,12 @@ class Category extends Model implements CategoryInterface
         return $this->hasMany(Discussion::class, 'category_id');
     }
 
-    public function parents()
+    public function parent()
     {
+        return $this->belongTo(self::class, 'parent_id')->orderBy('order', 'asc');
+    }
+
+    public function children() {
         return $this->hasMany(self::class, 'parent_id')->orderBy('order', 'asc');
     }
 }
