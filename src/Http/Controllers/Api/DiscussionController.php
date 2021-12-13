@@ -40,17 +40,17 @@ class DiscussionController extends Controller
     {
         if ($request->has('category')) {
             $category = Category::where('slug', $request->category)->first();
-            $c = [];
-            if(count($category->children) > 0) {
-                foreach ($category->children as $child) {
-                    $c[] = $child;
-                }
-            }
+//            $c = [];
+//            if(count($category->children) > 0) {
+//                foreach ($category->children as $child) {
+//                    $c[] = $child;
+//                }
+//            }
             $collection = new DiscussionCollection($category->discussions()
                 ->orderBy('updated_at', 'asc')
                 ->paginate(config('chatter.paginate.discussions')));
 
-            $collection->category = array_merge($c);
+            $collection->category = $category;
             
             return $collection;
         }
